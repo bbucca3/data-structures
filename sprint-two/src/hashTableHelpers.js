@@ -24,9 +24,10 @@ var LimitedArray = function(limit) {
     storage[index] = value;
   };
   limitedArray.each = function(callback) {
-    for (var i = 0; i < storage.length; i++) {
-      callback(storage[i], i, storage);
-    }
+    // for (var i = 0; i < storage.length; i++) {
+    //   callback(storage[i], i, storage);
+    // }
+    callback();
   };
 
   var checkLimit = function(index) {

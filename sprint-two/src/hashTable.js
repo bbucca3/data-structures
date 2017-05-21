@@ -3,38 +3,64 @@
 var HashTable = function() {
   this._limit = 8;
   this._storage = LimitedArray(this._limit);
-  // for each in this._storage
-  this._storage.each(function (node, index, storage) {
-    node = LimitedArray(this._limit);
-  });
-  // set value to new instance of Limited Array
+  // for each storage
+  //console.log(this._storage);
 };
+
 
 HashTable.prototype.insert = function(k, v) {
   var index = getIndexBelowMaxForKey(k, this._limit);
-  // loop through first storage array
-  this._storage.set(index, v);
+  // check if storage index is undefined
+  var update = true;
+  var node = this._storage.get(index);
+  if (node === undefined) {
+    this._storage.set(index, []);
+    node = this._storage.get(index);
+    node.push([k, v]);
+  } else {
+    // looping through node array
+    for (var i = 0; i < node.length; i++) {
+      // checking if key aleady exists
+      if (node[i][0] === k) {
+        // update value if key already exists
+        node[i][1] = v;
+        update = false;
+      }
+    }
+  }
+  if (update) {
+    node.push([k, v]);
+  }
+    // if undefined
+      // set empty array
+    // if key is set
+      // overwrite previous value
+    // 
 };
 
 HashTable.prototype.retrieve = function(k) {
   var index = getIndexBelowMaxForKey(k, this._limit);
-  // // pass through parent storage
-  // let targetIndex = this._storage.get(index);
-  // targetIndex.each(function(node) {
-  // }
-  //   // pass through storage node
-  //     // locate target tuple
-  //     // return tuple
-  return this._storage.get(index);
+  // utilize get method to access storage nodes
+  var node = this._storage.get(index);
+  // loop through storage node
+  
+  for (var i = 0; i < node.length; i++) {
+    // if node key equals index
+    if (node[i] && node[i][0] === k) {
+      // return value
+      return node[i][1];
+    }  
+  }
 };
 
 HashTable.prototype.remove = function(k) {
   var index = getIndexBelowMaxForKey(k, this._limit);
-  // pass through parent storage
-    // pass through storage nodes
-      // locate tuple
-      // set value to undefined
-  this._storage.set(index, undefined);
+  var node = this._storage.get(index);
+  for (var i = 0; i < node.length; i++) {
+    if (node[i][0] === k) {
+      node[i] = undefined;
+    }
+  }
 };
 
 
